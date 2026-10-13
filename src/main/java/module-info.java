@@ -3,6 +3,7 @@ module com.example.azaniisp {
     requires javafx.fxml;
     requires java.sql;
     requires mysql.connector.j;
+    requires com.zaxxer.hikari;
 
     opens com.example.azaniisp to javafx.fxml;
     exports com.example.azaniisp;

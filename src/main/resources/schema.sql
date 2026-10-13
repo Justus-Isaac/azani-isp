@@ -1,5 +1,3 @@
-CREATE DATABASE IF NOT EXISTS azani_isp;
-USE azani_isp;
 
 CREATE TABLE bandwidth_tiers (
                                        tier_id           INT AUTO_INCREMENT PRIMARY KEY,
