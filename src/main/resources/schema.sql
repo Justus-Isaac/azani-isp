@@ -25,7 +25,6 @@ INSERT INTO lan_node_bands (min_nodes, max_nodes, cost) VALUES
 CREATE TABLE institutions (
                                        institution_id  INT AUTO_INCREMENT PRIMARY KEY,
                                        registration_no  VARCHAR(20) NOT NULL UNIQUE,
-                                       account_no       VARCHAR(20) NOT NULL UNIQUE,
                                        name             VARCHAR(150) NOT NULL,
                                        institution_type   ENUM('PRIMARY', 'JUNIOR', 'SENIOR', 'COLLEGE') NOT NULL,
                                        contact_phone    VARCHAR(20) NOT NULL,
