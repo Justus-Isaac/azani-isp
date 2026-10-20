@@ -78,6 +78,20 @@ public class InstitutionDaoImpl implements InstitutionDao {
     }
 
     @Override
+    public Optional<InstitutionEntity> findByRegistrationNo(String registrationNo) {
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(INSTITUTION_SELECT_BY_REGISTRATION_NO)
+        ) {
+            ps.setString(1, registrationNo);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? Optional.of(mapRow(rs)) : Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Could not find institution with registration no " + registrationNo, e);
+        }
+    }
+
+    @Override
     public List<InstitutionEntity> findAll() {
         List<InstitutionEntity> results = new ArrayList<>();
         try (Connection conn = Database.getConnection();

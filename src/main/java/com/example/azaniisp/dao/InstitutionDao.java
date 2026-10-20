@@ -9,5 +9,6 @@ public interface InstitutionDao {
     InstitutionEntity save(InstitutionEntity institution);
     void update(InstitutionEntity institution);
     Optional<InstitutionEntity> findById(Long id);
+    Optional<InstitutionEntity> findByRegistrationNo(String registrationNo);
     List<InstitutionEntity> findAll();
 }

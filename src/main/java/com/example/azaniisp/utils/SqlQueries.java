@@ -18,6 +18,11 @@ public final class SqlQueries {
               SELECT * FROM institutions WHERE institution_id = ?;
             """;
 
+    public static final String INSTITUTION_SELECT_BY_REGISTRATION_NO =
+            """
+                SELECT * FROM institutions WHERE institution_registration_no = ?;
+            """;
+
     public static final String INSTITUTION_SELECT_ALL =
             """
                SELECT * FROM institutions ORDER BY institution_id ASC;
@@ -30,4 +35,7 @@ public final class SqlQueries {
             email = ?, location = ?, physical_address = ?, registration_date = ?, status = ?
         WHERE institution_id = ?
    \s""";
+
+
+
 }

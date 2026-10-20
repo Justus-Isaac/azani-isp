@@ -31,7 +31,7 @@ CREATE TABLE institutions (
                                        email            VARCHAR(100) NOT NULL,
                                        location         VARCHAR(150),
                                        physical_address  VARCHAR(200),
-                                       registration_date DATE NOT NULL,
+                                       registration_date DATE NOT NULL DEFAULT (CURRENT_DATE),
                                        status    ENUM('PENDING_REGISTRATION','REGISTERED','ACTIVE','DISCONNECTED','SUSPENDED')
         NOT NULL DEFAULT 'PENDING_REGISTRATION',
                                        created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
