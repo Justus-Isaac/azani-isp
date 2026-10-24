@@ -1,5 +1,6 @@
 package com.example.azaniisp.view;
 
+import com.example.azaniisp.config.AppContainer;
 import com.example.azaniisp.ui.style.App.AppColors;
 
 import javax.swing.*;
@@ -9,8 +10,13 @@ public class MainFrame extends JFrame implements SidebarPanel.NavigationListener
 
     private final JPanel contentPanel;
     private final CardLayout cardLayout;
+    private final AppContainer appContainer;
 
-    public MainFrame() {
+    public MainFrame(AppContainer appContainer) {
+
+        this.appContainer = appContainer;
+
+
         setTitle("Azani ISP INFORMATION SYSTEM");
         setSize(1100, 680);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,7 +30,7 @@ public class MainFrame extends JFrame implements SidebarPanel.NavigationListener
         contentPanel = new JPanel(cardLayout);
         contentPanel.setBackground(AppColors.BG_CONTENT);
 
-        contentPanel.add(new HomePanel(), "HOME");
+        contentPanel.add(appContainer.getHomePanel(), "HOME");
         contentPanel.add(new JLabel("Welcome to Dashboard", SwingConstants.CENTER), "DASHBOARD");
         contentPanel.add(new JLabel("Institution Management Screen", SwingConstants.CENTER), "INSTITUTIONS");
         contentPanel.add(new JLabel("Subscriptions Screen", SwingConstants.CENTER), "SUBSCRIPTIONS");
@@ -34,6 +40,8 @@ public class MainFrame extends JFrame implements SidebarPanel.NavigationListener
 
         cardLayout.show(contentPanel, "HOME");
 
+
+        appContainer.getHomeController().loadHomePage();
     }
 
     private JPanel createPlaceholderScreen(String screenTitle) {

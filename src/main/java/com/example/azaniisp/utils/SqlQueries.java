@@ -2,7 +2,7 @@ package com.example.azaniisp.utils;
 
 public final class SqlQueries {
 
-    private SqlQueries() {}
+
 
     public static final String INSTITUTIONS_INSERT =
            """
@@ -36,6 +36,25 @@ public final class SqlQueries {
         WHERE institution_id = ?
    \s""";
 
+    public static final String BANDWIDTH_TIERS_SELECT_BY_ID =
+            """
+                SELECT * FROM bandwidth_tiers WHERE tier_id = ?;
+            """;
 
+    public  static final String BANDWIDTH_TIERS_SELECT_ALL =
+            """
+                SELECT * FROM bandwidth_tiers ORDER BY tier_id ASC;
+            """;
 
+    public static final String LAN_NODE_BANDS_SELECT_BY_ID =
+            """
+                SELECT * FROM lan_node_bands WHERE band_id = ?;
+            """;
+
+    public static final String LAN_NODE_BANDS_SELECT_ALL =
+            """
+                SELECT * FROM lan_node_bands ORDER BY band_id ASC;
+            """;
+
+    private SqlQueries() {}
 }

@@ -1,73 +1,90 @@
 package com.example.azaniisp.view;
 
+import com.example.azaniisp.model.BandwidthTier;
+import com.example.azaniisp.model.LanNodeBand;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+import java.util.List;
+
 public class HomePanel extends JPanel {
+    private final JPanel packagesContainer;
+    private final JPanel lanContainer;
+    private final Color[] bannerColors = {
+            new Color(180, 100, 60),  // Bronze
+            new Color(148, 163, 184), // Silver
+            new Color(234, 179, 8),   // Gold
+            new Color(219, 39, 119),  // Diamond
+            new Color(147, 51, 234)   // Platinum
+    };
+
     public HomePanel() {
         setLayout(new BorderLayout());
-        setBackground(new Color(248, 250, 252)); // Ultra light blue-gray background
+        setBackground(new Color(230, 233, 236));
 
-        // --- Header Banner Section ---
-        JPanel headerPanel = new JPanel();
-        headerPanel.setOpaque(false);
-        headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
-        headerPanel.setBorder(new EmptyBorder(30, 20, 10, 20));
+        // Central Vertical Scroll Workspace Panel
+        JPanel mainContentWorkspace = new JPanel();
+        mainContentWorkspace.setLayout(new BoxLayout(mainContentWorkspace, BoxLayout.Y_AXIS));
+        mainContentWorkspace.setOpaque(false);
+        mainContentWorkspace.setBorder(new EmptyBorder(25, 30, 25, 30));
 
-        JLabel titleLabel = new JLabel("Explore Internet Packages");
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        titleLabel.setForeground(new Color(15, 23, 42));
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // --- 1. Dynamic Bandwidth Tiers Sub-Section ---
+        JLabel section1Header = new JLabel("Available High-Speed Internet Tiers");
+        section1Header.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        section1Header.setForeground(new Color(15, 23, 42));
+        mainContentWorkspace.add(section1Header);
+        mainContentWorkspace.add(Box.createRigidArea(new Dimension(0, 12)));
 
-        JLabel subtitleLabel = new JLabel("High-speed reliable fiber links tailored for learning institutions and colleges.");
-        subtitleLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        subtitleLabel.setForeground(new Color(100, 116, 139));
-        subtitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        packagesContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+        packagesContainer.setOpaque(false);
+        mainContentWorkspace.add(packagesContainer);
 
-        headerPanel.add(titleLabel);
-        headerPanel.add(Box.createRigidArea(new Dimension(0, 6)));
-        headerPanel.add(subtitleLabel);
-        add(headerPanel, BorderLayout.NORTH);
+        mainContentWorkspace.add(Box.createRigidArea(new Dimension(0, 35)));
 
-        // --- Scrollable Grid Layout Container for Reusable Cards ---
-        // Changed to a standard 5-column setup to comfortably showcase the official Azani Tiers
-        JPanel cardsGrid = new JPanel(new GridLayout(1, 5, 16, 0));
-        cardsGrid.setOpaque(false);
-        cardsGrid.setBorder(new EmptyBorder(20, 25, 30, 25));
+        // --- 2. Dynamic LAN Node Infrastructure Bands Sub-Section ---
+        JLabel section2Header = new JLabel("Local Area Network (LAN) Nodes Pricing Scale");
+        section2Header.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        section2Header.setForeground(new Color(15, 23, 42));
+        mainContentWorkspace.add(section2Header);
+        mainContentWorkspace.add(Box.createRigidArea(new Dimension(0, 12)));
 
-        // Package Data definitions matched with Assignment Specification Pricing Models
-        cardsGrid.add(new PackageCard(
-                "Bronze", new Color(180, 100, 60), "4 MBPS", "KSh 1,200",
-                new String[]{"Basic Browsing", "Junior Schools", "LAN Compatible"}
-        ));
+        lanContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+        lanContainer.setOpaque(false);
+        mainContentWorkspace.add(lanContainer);
 
-        cardsGrid.add(new PackageCard(
-                "Silver", new Color(148, 163, 184), "10 MBPS", "KSh 2,000",
-                new String[]{"HD Video Streaming", "Primary Schools", "Assorted Support"}
-        ));
+        // Standard Scroll wrapper allocation
+        JScrollPane verticalScroll = new JScrollPane(mainContentWorkspace);
+        verticalScroll.setBorder(null);
+        verticalScroll.setOpaque(false);
+        verticalScroll.getViewport().setOpaque(false);
 
-        cardsGrid.add(new PackageCard(
-                "Gold", new Color(234, 179, 8), "20 MBPS", "KSh 3,500",
-                new String[]{"Multiple Devices", "Senior Schools", "10% Upgrade Deal"}
-        ));
+        add(verticalScroll, BorderLayout.CENTER);
+    }
 
-        cardsGrid.add(new PackageCard(
-                "Diamond", new Color(219, 39, 119), "25 MBPS", "KSh 4,000",
-                new String[]{"High Capacity Line", "Large Campus Units", "24/7 Monitoring"}
-        ));
+    /**
+     * Clears current items and binds actual persistent database rows to UI widgets.
+     */
+    public void updateContent(List<BandwidthTier> bandwidths, List<LanNodeBand> lanBands) {
+        packagesContainer.removeAll();
+        lanContainer.removeAll();
 
-        cardsGrid.add(new PackageCard(
-                "Platinum", new Color(147, 51, 234), "50 MBPS", "KSh 7,000",
-                new String[]{"Uncapped Bandwidth", "Colleges & Admin", "SLA Guarantee"}
-        ));
+        // Bind Internet Bundles
+        for (int i = 0; i < bandwidths.size(); i++) {
+            Color calculatedColor = bannerColors[i % bannerColors.length];
+            PackageCard card = new PackageCard(bandwidths.get(i), calculatedColor);
+            card.setPreferredSize(new Dimension(175, 180));
+            packagesContainer.add(card);
+        }
 
-        // Embed inside a nice scrollpane container so it scales nicely across small screen windows
-        JScrollPane scrollPane = new JScrollPane(cardsGrid);
-        scrollPane.setBorder(null);
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
+        // Bind Local Node infrastructure scales
+        for (LanNodeBand band : lanBands) {
+            lanContainer.add(new LanBandCard(band));
+        }
 
-        add(scrollPane, BorderLayout.CENTER);
+        // Inform Swing layout subroutines to recalculate visual layout boundaries
+        revalidate();
+        repaint();
     }
 }

@@ -1,14 +1,17 @@
 package com.example.azaniisp;
 
-import com.example.azaniisp.view.MainFrame;
+import com.example.azaniisp.config.AppContainer;
+
 
 import javax.swing.*;
 
 public class AzaniApp {
     public static void main(String[] args) {
+
         SwingUtilities.invokeLater(() -> {
-            MainFrame mainFrame = new MainFrame();
-            mainFrame.setVisible(true);
+            AppContainer appContainer = new AppContainer();
+
+            appContainer.getMainFrame().setVisible(true);
         });
     }
 }
